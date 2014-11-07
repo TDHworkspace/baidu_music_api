@@ -20,7 +20,7 @@ class Baidu_Music():
         val['_'] = int(time.time())
         val['method'] = 'baidu.ting.search.catalogSug'
 #       data['query'] = query
-        val['query'] = '微光' #测试使用
+        val['query'] = '红玫瑰' #测试使用
         val['size'] = '1'
 #API_URL,处理URL参数
         url = 'http://tingapi.ting.baidu.com/v1/restserver/ting'
@@ -54,9 +54,9 @@ class Baidu_Music():
         print u'############获取列表成功##############'
         return songname,songid,artistname
 #------------下载函数-------------
-    def Down_Music(self, url ,songname):
+    def Down_Music(self, song_url ,song_name, formats):
         print u'开始下载......'
-        urllib.urlretrieve(url, songname+'.mp3')
+        urllib.urlretrieve(song_url, song_name+'.'+formats)
         print u'下载完成,已保持到当前目录下'
 #-------------获取下载url地址-------------
     def Get_MusicUrl(self, song_num):
@@ -80,29 +80,29 @@ class Baidu_Music():
 #得到RESPONSE响应
         response = urllib2.urlopen(req,timeout=10) #10秒后timeout
         jsons = response.read()
-        print jsons
+        jsons = jsons.replace('__cb_download(','')
+        jsons = jsons.replace('}]}})','}]}}')
+        jsons = jsons.replace('\\','')
+#        print jsons
 ###################处理JSON#################
 #加载JSON数据
         j = json.loads(jsons)
-        url=[]
         try:
-            for i in range(1,100):
-                #用 双list 存储 歌名与id
-                url = j['data']
+               songLinks =  j['data']['songList'][0]['songLink']
+               formats = j['data']['songList'][0]['format']
         except:
-            print u'不需理会异常'
-        print u'############获取列表成功##############'
-        return songname
+            print u'获取下载地址失败'
+        return songLinks,formats
 #----------------运行---------------------
 Music = Baidu_Music()
 songname,songid,artistname = Music.Input_SongName()
 for i in range(0,len(songname)):
     print str(i+1)+'. '+songname[i] + '--' + artistname[i]+'  id: '+songid[i]
 #输入音乐编号
-print u'################################'
+print u'#####################################'
 print u'输入音乐编号,进行下载'
 song_num = raw_input()
+song_name = songname[int(song_num)-1] 
 song_num = songid[int(song_num)-1]
-Music.Get_MusicUrl(song_num)
-
-
+songLink, formats = Music.Get_MusicUrl(song_num)
+Music.Down_Music(songLink, song_name, formats)
