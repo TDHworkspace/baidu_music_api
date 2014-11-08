@@ -11,16 +11,16 @@ import json
 class Baidu_Music():
 #--------------获取搜索音乐JSON------------------
     def Input_SongName(self):
-#       print u'请输入要搜索的音乐'
-#       query = raw_input()
+        print u'请输入要搜索的音乐'
+        query = raw_input()
         val = {}
         val['from'] = 'webapp_music'
         val['format'] = 'json'
         val['callback'] = ''
         val['_'] = int(time.time())
         val['method'] = 'baidu.ting.search.catalogSug'
-#       data['query'] = query
-        val['query'] = '红玫瑰' #测试使用
+        val['query'] = query
+#        val['query'] = '红玫瑰' #测试使用
         val['size'] = '1'
 #API_URL,处理URL参数
         url = 'http://tingapi.ting.baidu.com/v1/restserver/ting'
@@ -106,3 +106,5 @@ song_name = songname[int(song_num)-1]
 song_num = songid[int(song_num)-1]
 songLink, formats = Music.Get_MusicUrl(song_num)
 Music.Down_Music(songLink, song_name, formats)
+
+
