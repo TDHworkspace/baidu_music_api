@@ -9,6 +9,10 @@ import urllib2
 import time
 import json
 import mp3play
+import sys
+
+reload(sys) #重新加载sys  
+sys.setdefaultencoding('utf-8')
 
 def Get_WangYi_Music(s):
     val = {}
@@ -35,8 +39,8 @@ def Get_WangYi_Music(s):
 ###################处理JSON#################
 #加载JSON数据
     j = json.loads(jsons)
-    num = int(j['result']['songCount'])
-    print num
+    #num = int(j['result']['songCount'])
+    #print num
     link = []
     try:
         for i in range(10):
@@ -47,17 +51,19 @@ def Get_WangYi_Music(s):
     return link
 
 def playMp3(filename):
-    #filename = r'one year.mp3'
-    #filename = r'http://m1.music.126.net/uCNvR9xHLoQIj1kIRyzadQ==/1012650209189889.mp3'
     mp3 = mp3play.load(filename)
-    while(1):
+    i = 1
+    while(i):
         mp3.play()
-        print mp3.seconds()
+        print u'时长'+ str(mp3.seconds()) + u'秒'
         time.sleep(mp3.seconds())
         mp3.stop()
-print u'输入歌名'
-name = raw_input()
-filelist = Get_WangYi_Music(name)
-print u'输入编号'
-num = int(raw_input())
-playMp3(filelist[num])
+        print u'你已经循环了'+ str(i) +u'了'
+
+if __name__ ==  '__main__': 
+    print u'输入歌名'
+    name = raw_input().decode('GBK')
+    filelist = Get_WangYi_Music(name)
+    print u'输入编号'
+    num = int(raw_input())
+    playMp3(filelist[num])
