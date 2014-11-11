@@ -6,7 +6,7 @@ Created on 2014年11月9日
 '''
 import json
 import sys
-from music.api import tools
+import tools
 
 reload(sys) #重新加载sys  
 sys.setdefaultencoding('utf-8')

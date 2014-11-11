@@ -23,7 +23,7 @@ def r_json(url,param,header):
     return jsons
 
 #------------下载函数-------------
-def Down_Music(self, song_url ,song_name, formats):
+def Down_Music(song_url ,song_name, formats):
     print u'开始下载......'
     try:
         urllib.urlretrieve(song_url, song_name+'.'+formats)

@@ -6,7 +6,7 @@ Created on 2014年11月07日
 import time
 import json
 import sys
-from music.api import tools
+import tools
 
 reload(sys) #重新加载sys  
 sys.setdefaultencoding('utf-8')
@@ -128,7 +128,7 @@ if __name__ == '__main__':
             song_name = songname[int(song_num)-1] 
             song_num = songid[int(song_num)-1]
             songLink, formats = Music.Get_MusicUrl(song_num)
-            Music.Down_Music(songLink, song_name, formats)
+            tools.Down_Music(songLink, song_name, formats)
             break
         else:
             no = raw_input(u'输入错误请重新输入')
