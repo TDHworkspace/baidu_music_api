@@ -1,4 +1,4 @@
-#encoding=utf-8
+#coding=utf-8
 '''
 Created on 2014年11月10日
 
@@ -26,12 +26,15 @@ def r_json(url,param,header):
 def Down_Music(song_url ,song_name, formats):
     print u'开始下载......'
     try:
-        urllib.urlretrieve(song_url, song_name+'.'+formats)
+        urllib.urlretrieve(song_url, song_name+'.'+formats,reporthook= report_hook)
     except:
         print u'下载地址出错,下载失败'
     print u'下载完成,已保持到当前目录下'
-    
-#--------播放mo3------
+
+#------------显示进度条----------
+def report_hook(count, block_size, total_size):
+    print '%02d%%' %(100.0*count*block_size/total_size)
+#--------播放mp3---
 def playMp3(filename):
     mp3 = mp3play.load(filename)
     i = 1
