@@ -6,8 +6,12 @@ Created on 2014年11月10日
 '''
 import urllib
 import urllib2
-import mp3play
+try:
+    import mp3play
+except:
+    print u'不能导入mp3play'
 import time
+import pyglet
 
 #----传入url和参数 返回json-----
 def r_json(url,param,header):
@@ -34,6 +38,12 @@ def Down_Music(song_url ,song_name, formats):
 #------------显示进度条----------
 def report_hook(count, block_size, total_size):
     print '%02d%%' %(100.0*count*block_size/total_size)
+#-------linux 播放mp3---------
+def l_playMp3(filename):
+    source = pyglet.media.load(filename)
+    player = pyglet.media.Player()
+    player.queue(source)
+    player.play()
 #--------播放mp3---
 def playMp3(filename):
     mp3 = mp3play.load(filename)
